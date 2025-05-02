@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Davi</title>
+  <title>Melhorar Imagem</title>
   <style>
     body {
       margin: 0;
@@ -28,11 +28,7 @@
       color: #fff;
       margin-bottom: 10px;
     }
-    p {
-      color: #ccc;
-      margin-bottom: 20px;
-    }
-    input {
+    input[type="file"] {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
@@ -54,32 +50,52 @@
       margin-top: 10px;
       box-sizing: border-box; /* Garante que o padding não quebre o layout */
     }
+    img {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Bem-vindo Davi</h1>
-    <p>Por favor, confirme sua identidade</p>
-    <input type="text" id="username" placeholder="Usuário" />
-    <input type="password" id="password" placeholder="Senha" />
-    <button onclick="login()">Entrar</button>
+    <h1>Melhorar Imagem</h1>
+    <p>Escolha uma imagem para melhorar a qualidade</p>
+    <input type="file" id="imageUpload" />
+    <button onclick="uploadImage()">Enviar Imagem</button>
+    <img id="outputImage" src="" alt="Imagem melhorada" style="display:none;" />
   </div>
 
   <script>
-    function login() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
+    function uploadImage() {
+      const fileInput = document.getElementById("imageUpload");
+      const file = fileInput.files[0];
+      const formData = new FormData();
 
-      // Condicional de login
-      if (user === "error" && pass === "404") {
-        window.location.href = "https://davierror404.github.io/test2-site/";  // Redireciona para chat.com
-      } else {
-        alert("Usuário ou senha inválidos.");
-        // Limpar campos após erro
-        document.getElementById("username").value = '';
-        document.getElementById("password").value = '';
+      if (!file) {
+        alert("Por favor, selecione uma imagem.");
+        return;
       }
+
+      formData.append("image", file);
+
+      // Aqui você faria a chamada para a API do iLoveIMG
+      // Exemplo com axios (requer instalar axios primeiro)
+      axios.post('https://api.iloveimg.com/v1/image', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      })
+      .then(response => {
+        const img = document.getElementById("outputImage");
+        img.src = response.data.imagem_url; // Supondo que a resposta contenha a URL da imagem melhorada
+        img.style.display = "block"; // Exibir imagem
+      })
+      .catch(error => {
+        alert("Erro ao processar a imagem.");
+        console.error(error);
+      });
     }
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 </html>
