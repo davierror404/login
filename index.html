@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login Davi</title>
+  <title>Melhorar Imagem</title>
   <style>
     body {
       margin: 0;
@@ -33,14 +33,20 @@
       color: #ccc;
       margin-bottom: 20px;
     }
-    input {
+    input[type="file"] {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
       border: none;
       border-radius: 10px;
       font-size: 16px;
+      background-color: #8000ff;
+      color: white;
+      cursor: pointer;
       box-sizing: border-box;
+    }
+    input[type="file"]:hover {
+      background-color: #9c00e6;
     }
     button {
       width: 100%;
@@ -55,11 +61,14 @@
       margin-top: 10px;
       box-sizing: border-box;
     }
-    .login-page, .image-page {
-      display: none;
+    button:hover {
+      background: #9c00e6;
     }
-    .image-page {
-      display: block;
+    .error-message {
+      color: red;
+      margin-top: 10px;
+      display: none;
+      font-size: 14px;
     }
     img {
       margin-top: 20px;
@@ -70,49 +79,29 @@
 </head>
 <body>
 
-  <!-- Página de Login -->
-  <div class="container login-page">
-    <h1>Bem-vindo Davi</h1>
-    <p>Por favor, confirme sua identidade</p>
-    <input type="text" id="username" placeholder="Usuário" />
-    <input type="password" id="password" placeholder="Senha" />
-    <button onclick="login()">Entrar</button>
-  </div>
-
   <!-- Página de Melhorar Imagem -->
-  <div class="container image-page">
+  <div class="container">
     <h1>Melhorar Imagem</h1>
     <p>Escolha uma imagem para melhorar a qualidade</p>
     <input type="file" id="imageUpload" />
     <button onclick="uploadImage()">Enviar Imagem</button>
+    <p class="error-message" id="error-message">Por favor, selecione uma imagem para enviar.</p>
     <img id="outputImage" src="" alt="Imagem melhorada" style="display:none;" />
   </div>
 
   <script>
-    // Função de Login
-    function login() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
-
-      // Condicional de login
-      if (user === "davi" && pass === "senha123") {
-        document.querySelector(".login-page").style.display = "none"; // Oculta a tela de login
-        document.querySelector(".image-page").style.display = "block"; // Exibe a página de melhorar imagem
-      } else {
-        alert("Usuário ou senha inválidos.");
-        // Limpar campos após erro
-        document.getElementById("username").value = '';
-        document.getElementById("password").value = '';
-      }
-    }
-
     // Função de envio de imagem (simulação de upload)
     function uploadImage() {
       const fileInput = document.getElementById("imageUpload");
       const file = fileInput.files[0];
+      const errorMessage = document.getElementById("error-message");
+
+      // Limpar mensagem de erro
+      errorMessage.style.display = "none";
 
       if (!file) {
-        alert("Por favor, selecione uma imagem.");
+        // Exibir erro se nenhum arquivo for selecionado
+        errorMessage.style.display = "block";
         return;
       }
 
