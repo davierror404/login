@@ -33,20 +33,24 @@
       color: #ccc;
       margin-bottom: 20px;
     }
-    input[type="file"] {
+    .file-upload-container {
+      position: relative;
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
+      overflow: hidden;
       border-radius: 10px;
-      font-size: 16px;
       background-color: #8000ff;
       color: white;
       cursor: pointer;
-      box-sizing: border-box;
+      padding: 12px;
+      text-align: center;
+      font-size: 16px;
     }
-    input[type="file"]:hover {
-      background-color: #9c00e6;
+    .file-upload-container input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
     }
     button {
       width: 100%;
@@ -83,13 +87,25 @@
   <div class="container">
     <h1>Melhorar Imagem</h1>
     <p>Escolha uma imagem para melhorar a qualidade</p>
-    <input type="file" id="imageUpload" />
+
+    <!-- Botão de upload personalizado -->
+    <div class="file-upload-container">
+      Escolher arquivo
+      <input type="file" id="imageUpload" onchange="updateFileName()" />
+    </div>
+
     <button onclick="uploadImage()">Enviar Imagem</button>
     <p class="error-message" id="error-message">Por favor, selecione uma imagem para enviar.</p>
     <img id="outputImage" src="" alt="Imagem melhorada" style="display:none;" />
   </div>
 
   <script>
+    function updateFileName() {
+      const fileInput = document.getElementById("imageUpload");
+      const fileName = fileInput.files[0] ? fileInput.files[0].name : "Escolher arquivo";
+      document.querySelector(".file-upload-container").textContent = fileName || "Escolher arquivo";
+    }
+
     // Função de envio de imagem (simulação de upload)
     function uploadImage() {
       const fileInput = document.getElementById("imageUpload");
